@@ -17,7 +17,6 @@ This contains a minimal working stack:
 
 ---
 ## Build Instructions below:
-
 ## 1) Start Postgres (Docker)
 ```bash
 docker compose up -d
