@@ -7,7 +7,7 @@ This project is an AI-based psychotherapy web platform designed to support users
 - Mood tracking: Record users’ emotional states over time and generate summaries for self-reflection or therapist reference.
 
 
-
+## 0.1) Tools
 This contains a minimal working stack:
 - **Frontend:** Next.js (React, TS)
 - **Backend:** FastAPI (Python)
@@ -16,6 +16,7 @@ This contains a minimal working stack:
 - **Models:** Mocked LLM guidance + keyword-based emotions (replace later)
 
 ---
+## Build Instructions below:
 
 ## 1) Start Postgres (Docker)
 ```bash
