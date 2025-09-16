@@ -1,1 +1,57 @@
-# individual_p_tiffany
+# AI Psychotherapy Prototype – Running Skeleton
+
+This monorepo contains a minimal working stack:
+- **Frontend:** Next.js (React, TS)
+- **Backend:** FastAPI (Python)
+- **Database:** PostgreSQL (Docker)
+- **Auth:** Email/password + JWT (prototype)
+- **Models:** Mocked LLM guidance + keyword-based emotions (replace later)
+
+---
+
+## 1) Start Postgres (Docker)
+```bash
+docker compose up -d
+# DB is on localhost:5432 with user=app pass=app db=aitherapy
+```
+
+## 2) Backend
+```bash
+cd backend
+python -m venv .venv && source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env
+uvicorn app.main:app --reload --port 8000
+```
+API root: http://localhost:8000
+
+## 3) Frontend
+```bash
+cd ../frontend
+cp .env.local.example .env.local
+npm install
+npm run dev
+```
+App: http://localhost:3000
+
+## 4) Quick test
+1. On `/` page, **Register** (or Login). Token is stored in localStorage.
+
+2. Go to **Chat**, type any text, click **Analyze** → you should see emotions JSON and a guidance paragraph.
+
+3. Go to **Mood**, save a mood entry and see it listed.
+
+
+> No API key required. Swap `services/llm_client.py` later to call a real provider, and replace `services/emotions.py` with your Naive Bayes model.
+
+## Structure
+- `backend/app/routers` – health, auth, chat, mood endpoints
+
+- `backend/app/services` – emotion analyzer + (mock) LLM client
+
+- `backend/app/models.py` – SQLAlchemy tables (users, messages, mood)
+
+- `frontend/app` – minimal pages (home/login, chat, mood)
+
+- `frontend/lib/api.ts` – fetch helper that sends the Bearer token
+
