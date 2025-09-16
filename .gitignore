@@ -1,0 +1,9 @@
+# Node.js dependencies
+frontend/node_modules/
+
+# Python virtual environment
+backend/.venv/
+
+# OS files
+.DS_Store
+
