@@ -13,7 +13,7 @@ This contains a minimal working stack:
 - **Backend:** FastAPI (Python)
 - **Database:** PostgreSQL (Docker)
 - **Auth:** Email/password + JWT (prototype)
-- **Models:** Mocked LLM guidance + keyword-based emotions + Naïve Byes analysis
+- **Models:** Mocked LLM guidance + keyword-based emotions + Naïve Bayes analysis
 
 ---
 ## Build Instructions below:
