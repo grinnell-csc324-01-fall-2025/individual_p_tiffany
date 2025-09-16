@@ -1,6 +1,6 @@
 # AI Psychotherapy Prototype – Running Skeleton
 
-This monorepo contains a minimal working stack:
+This contains a minimal working stack:
 - **Frontend:** Next.js (React, TS)
 - **Backend:** FastAPI (Python)
 - **Database:** PostgreSQL (Docker)
