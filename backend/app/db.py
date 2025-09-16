@@ -12,11 +12,35 @@ DATABASE_URL = os.getenv(
     "postgresql+psycopg2://tangyixu:0048@localhost:5432/ai_therapy"
 )
 
-# 创建数据库引擎
-engine = create_engine(DATABASE_URL, echo=True)
+# 初始化为空
+engine = None
+SessionLocal = None
 
-# 创建会话工厂
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+try:
+    # 尝试创建数据库引擎
+    engine = create_engine(DATABASE_URL, echo=True)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    print("✅ Database engine created successfully.")
+except Exception as e:
+    print("⚠️ Database not available, skipping connection.")
+    print("Error:", e)
 
 # ORM模型基类
 Base = declarative_base()
+
+from sqlalchemy.orm import Session
+
+# ORM模型基类
+Base = declarative_base()
+
+# FastAPI 依赖 - 获取数据库会话
+def get_db():
+    db = None
+    if SessionLocal is not None:
+        db = SessionLocal()
+    try:
+        yield db
+    finally:
+        if db is not None:
+            db.close()
+

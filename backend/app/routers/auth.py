@@ -1,28 +1,29 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ..schemas import UserCreate, UserLogin, Token
-from ..models import User
+from .. import models, schemas, auth
 from ..db import get_db
-from ..auth import hash_password, verify_password, create_access_token
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter()
 
-@router.post("/register", response_model=Token)
-def register(payload: UserCreate, db: Session = Depends(get_db)):
-    existing = db.query(User).filter(User.email == payload.email).first()
-    if existing:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
-    user = User(email=payload.email, password_hash=hash_password(payload.password))
-    db.add(user)
+@router.post("/register")
+def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    if db is None:
+        return {"msg": "DB not connected (dev mode)"}
+    db_user = db.query(models.User).filter(models.User.username == user.username).first()
+    if db_user:
+        raise HTTPException(status_code=400, detail="Username already registered")
+    hashed = auth.hash_password(user.password)
+    new_user = models.User(username=user.username, password=hashed)
+    db.add(new_user)
     db.commit()
-    db.refresh(user)
-    token = create_access_token(user.email)
-    return Token(access_token=token)
+    return {"msg": "User created"}
 
-@router.post("/login", response_model=Token)
-def login(payload: UserLogin, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.email == payload.email).first()
-    if not user or not verify_password(payload.password, user.password_hash):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
-    token = create_access_token(user.email)
-    return Token(access_token=token)
+@router.post("/login", response_model=schemas.Token)
+def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
+    if db is None:
+        raise HTTPException(status_code=500, detail="DB not connected")
+    db_user = db.query(models.User).filter(models.User.username == user.username).first()
+    if not db_user or not auth.verify_password(user.password, db_user.password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    token = auth.create_access_token({"sub": user.username})
+    return {"access_token": token, "token_type": "bearer"}
