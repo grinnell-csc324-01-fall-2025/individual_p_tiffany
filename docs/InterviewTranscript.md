@@ -63,3 +63,30 @@ I’d prefer voice recording rather than video, since video feels too vulnerable
 **Interviewee 1:** Thank you. I’m glad I could contribute my thoughts.  
 
 **Me:** Thank you as well—I truly appreciate your insights.  
+
+## Interview 2
+
+**Me:** What are your first thoughts about using AI for psychotherapy?  
+
+**Interviewee 2:** Honestly, I was a little skeptical. Chatting with an AI doesn’t feel the same as talking to a human who has complex emotions. For instance, ChatGPT might give advice based on logical if–then statements, like “If you have a conflict with a friend, then you should talk it out.” That’s useful, but it’s more like mimicking empathy rather than actually having empathy the way a human therapist would.  
+
+**Me:** I see. What kinds of concerns or reservations does that raise for you?  
+
+**Interviewee 2:** My main concern is that AI therapy might not have the same emotional capability or consciousness as a human being. That makes me hesitant.  
+
+**Me:** Are there any features or conditions that would make you feel more comfortable using an AI therapy tool?  
+
+**Interviewee 2:** I think it would help if the system were developed or approved by licensed psychotherapists. Since there aren’t enough therapists to meet demand, having them involved in building these tools could make the product more effective and trustworthy.  
+
+**Me:** That makes sense. What about data privacy? How important is that to you?  
+
+**Interviewee 2:** Very important. I would need to know that everything I share with the AI tool stays private and confidential. One of my worries is that companies might use my personal data to perfect their AI models without my consent. I don’t think I’d be comfortable with my feelings being used in that way.  
+
+**Me:** So, would you ever allow your data to be used?  
+
+**Interviewee 2:** Only if I explicitly consented. Otherwise, no. The only exception I would accept is if I were having thoughts of harming myself or others — in that case, the AI could flag it and escalate for safety reasons. But beyond that, everything else should remain confidential.  
+
+**Me:** Understood. Given all this, what would motivate you to try an AI psychotherapy service?  
+
+**Interviewee 2:** Probably two things: first, knowing that it was developed with the help of real psychotherapists, and second, having strong guarantees of privacy and confidentiality. With those in place, I’d be more open to trying it.
+
