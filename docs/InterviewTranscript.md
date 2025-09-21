@@ -90,3 +90,29 @@ I’d prefer voice recording rather than video, since video feels too vulnerable
 
 **Interviewee 2:** Probably two things: first, knowing that it was developed with the help of real psychotherapists, and second, having strong guarantees of privacy and confidentiality. With those in place, I’d be more open to trying it.
 
+## Interview 3
+
+**Me:** What are your first thoughts about using AI for psychotherapy?  
+
+**Interviewee 3:** Honestly, I don’t really love AI. My first thought is that using it for psychotherapy isn’t a good idea. Therapy deals with human emotions, and AI doesn’t have emotions. The helpful part of therapy is human connection—talking one-on-one with another person who understands you. AI can’t give that same connection, so I don’t think it would be as helpful.  
+
+**Me:** What concerns or reservations do you have about using an AI therapy product?  
+
+**Interviewee 3:** I wouldn’t want to share my personal information with an AI-based therapy product. I don’t know what company I’d be giving my data to. With a human therapist, confidentiality is protected unless there’s a threat to my life. With AI, I’d essentially be handing my data to whatever company owns it, and I don’t trust those companies. For example, I don’t feel comfortable giving information to big tech companies like Facebook. So in my opinion, putting therapy data online is unsafe—I wouldn’t want my personal information tracked or misused.  
+
+**Me:** Are there any features or capabilities that would make you feel more comfortable using an AI tool?  
+
+**Interviewee 3:** Honestly, no. There aren’t any features that would make me feel supported or comfortable, because therapy is deeply personal. There’s nothing comforting about AI to me—it can’t actually care about me, so why would I care about it? The only thing that might help is if my data were truly private and not shared. But privacy can’t really be guaranteed on the internet, so I don’t think AI could make me feel secure in that way.  
+
+**Me:** How important is privacy and data security to you when considering an AI therapy product?  
+
+**Interviewee 3:** Extremely important. But I don’t believe true privacy is possible online. Once something is on the internet, it’s no longer private. Data can always be discovered or shared, no matter what protections are promised. I don’t trust companies to keep my data secure. Anything I post online can end up being seen by others, so I don’t think real privacy exists on the internet.  
+
+**Me:** What factors might motivate you to use AI therapy instead of traditional therapy?  
+
+**Interviewee 3:** Honestly, nothing would motivate me to choose AI over human therapy. The only possible factor is money—therapy is expensive, so maybe free AI therapy could appeal to low-income people. But even then, I’d personally rather talk to a friend than use AI. If I couldn’t afford therapy, I’d still seek out a human connection, not an AI.  
+
+**Me:** Are there specific features or expectations that could make AI therapy more appealing or effective for you?  
+
+**Interviewee 3:** No. For me, therapy means talking to another human being. Nothing AI could do would change that. I would never use an AI product for psychotherapy, no matter what features it offered.  
+
