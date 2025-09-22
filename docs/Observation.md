@@ -16,4 +16,5 @@ During participant exploration of the AI-therapy website *Abby*, several usabili
    - This structure creates unnecessary pressure, as it feels more like a burden than a supportive feature.  
 
 4. **Analysis Content**  
-   - Once unlocked, the analysis feature provides evaluative sum
+   - Once unlocked, the analysis feature provides evaluative summaries of users’ messages.  
+   - However, it lacks actionable suggestions or instructional feedback, limiting its usefulness. Instead of offering guidance, it primarily restates the content of the conversation.  
