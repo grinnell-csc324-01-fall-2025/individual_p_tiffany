@@ -23,4 +23,10 @@ else:
 
 @app.get("/")
 def root():
-    return {"ok": True, "service": "ai-therapy-api"}
+    """
+    Root endpoint for service health check.
+
+    Returns:
+        dict: A simple JSON response indicating the service is running.
+    """
+    return {"Welcome! It's not done yet, but finger crossed it works at the end.": True, "service": "ai-therapy-api"}
