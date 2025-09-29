@@ -2,20 +2,151 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Experiment 2 - Mock AI Responses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exp2: Mock AI Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .chat-container {
+      width: 400px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .message {
+      margin: 0.5rem 0;
+      padding: 0.7rem 1rem;
+      border-radius: 12px;
+      max-width: 70%;
+      line-height: 1.4;
+    }
+    .user {
+      align-self: flex-end;
+      background: #daf4fa;
+    }
+    .bot {
+      align-self: flex-start;
+      background: #e8e8e8;
+    }
+    .input-container {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      border-top: 1px solid #ddd;
+    }
+    .input-container input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    .input-container button {
+      margin-left: 0.5rem;
+      padding: 0.5rem 0.7rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      font-size: 14px;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      background-color: #fff;
+      min-width: 200px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      border-radius: 6px;
+      z-index: 1;
+    }
+    .dropdown-content div {
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+    .dropdown-content div:hover {
+      background-color: #f1f1f1;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  </style>
 </head>
-<body style="font-family: Arial; margin: 2rem;">
-  <h1>Experiment 2: AI Feedback Comprehensibility</h1>
-  
-  <p><em>User input scenario:</em> "Today I feel very stressed about exams."</p>
-  
-  <h2>Mock AI Responses</h2>
-  <ol>
-    <li>"It’s normal to feel anxious during exams. Try scheduling breaks to stay balanced."</li>
-    <li>"Exams can be stressful, but remember you’ve prepared well. Deep breathing may help."</li>
-    <li>"Feeling stressed is common. Maybe talk with a friend to share your worries."</li>
-  </ol>
-  
-  <p><strong>Instruction:</strong> Please rate each response from 1 (not helpful) to 5 (very helpful).</p>
+<body>
+  <div class="chat-container">
+    <div class="messages" id="messages"></div>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Type something..." disabled />
+      <div class="dropdown">
+        <button>+</button>
+        <div class="dropdown-content">
+          <div onclick="sendPrompt(0)">😟 I'm feeling anxious today.</div>
+          <div onclick="sendPrompt(1)">😊 I had a really good day.</div>
+          <div onclick="sendPrompt(2)">😔 I feel lonely right now.</div>
+          <div onclick="sendPrompt(3)">😡 I'm so frustrated with work.</div>
+          <div onclick="sendPrompt(4)">😴 I'm exhausted and low energy.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const messagesDiv = document.getElementById("messages");
+
+    const responses = [
+      "It sounds like you're carrying a lot of worry. Try taking a few deep breaths—sometimes slowing down helps ground you.",
+      "That's wonderful to hear! Celebrating good days can really boost your resilience. What made today so positive?",
+      "Feeling lonely can be tough. Is there a small step you could take to connect with someone you trust?",
+      "Frustration is valid—work stress can pile up quickly. Maybe breaking tasks into smaller pieces could help.",
+      "Your body might be telling you it needs rest. Could you plan a short break or a relaxing activity tonight?"
+    ];
+
+    function addMessage(text, sender) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.textContent = text;
+      messagesDiv.appendChild(msg);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function sendPrompt(index) {
+      const prompts = [
+        "😟 I'm feeling anxious today.",
+        "😊 I had a really good day.",
+        "😔 I feel lonely right now.",
+        "😡 I'm so frustrated with work.",
+        "😴 I'm exhausted and low energy."
+      ];
+
+      // 用户消息
+      addMessage(prompts[index], "user");
+
+      // AI 回复
+      setTimeout(() => {
+        addMessage(responses[index], "bot");
+      }, 500);
+    }
+  </script>
 </body>
 </html>
