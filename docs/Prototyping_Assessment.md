@@ -44,22 +44,12 @@ with 5 being very satisfactory:
 
 ## 4. Takeaways
 
-- Experiment 1:
-Participants consistently felt that the plain white background was too monotonous and impersonal.  
-They said it doesn’t create a comfortable atmosphere for confiding emotions.  
-In addition, if every module is simply stacked vertically, the overall structure feels uncomfortable to navigate.  
-They suggested that a left-side toolbar would provide better organization and a more pleasant user experience. Tasks are completed within a minute.
+### Experiment 1
+Participants consistently felt that the plain white background was too monotonous and impersonal.  They explained that it does not create a comfortable atmosphere for confiding emotions. In addition, when every module is simply stacked vertically, the overall structure feels awkward to navigate. They suggested adding a left-side toolbar for better organization and a more pleasant user experience. Most participants were able to complete the tasks within one minute.  
 
-- Experiment 2:
-My friends think that the current prototype feels a bit too simplistic and somewhat cold.  
-Many of the responses are just a single line, and the wording sounds very “AI-like.”  
-Compared to interacting with a real friend, the sense of closeness is missing.  
-For ratings, they would like to give 3, 2, 0.  
-They feel that AI always comes across as polite and formal, but it lacks the warmth and human touch that makes conversations feel personal.
+### Experiment 2
+My friends thought that the current prototype feels overly simplistic and somewhat cold. Many of the responses were only a single line, and the wording sounded very “AI-like.” Compared to interacting with a real friend, the sense of closeness was missing. For ratings, they suggested giving scores of **3, 2, and 0** across different factors. They noted that while AI often comes across as polite and formal, it lacks the warmth and human touch needed to make conversations feel personal.  
 
-- Experiment 3:
-My participants quite like the mood-recording feature, but they feel that it doesn’t differ much from keeping a regular diary.  
-Beyond just recording moods, they suggested adding more detailed labels, for example noting how many small unpleasant events occurred in a day.  
-They would also like the option to customize and add their own labels to each day’s record, which would make the experience more meaningful.  
-In addition, they hope for a “compare” button that allows them to select and compare two different days, or today versus a past day.  
-This could help them better see their personal growth and transformation.
+### Experiment 3
+Participants appreciated the mood-recording feature, but felt it did not differ much from keeping a regular diary. They suggested adding more detailed labels, such as noting how many small unpleasant events occurred in a day. They also wanted the option to customize and add their own labels to each day’s record, making the feature more meaningful. In addition, they recommended a “compare” button that would allow them to select and compare two different days, or compare today with a past day. This, they believed, would help them better track their personal growth and transformation.  
+
