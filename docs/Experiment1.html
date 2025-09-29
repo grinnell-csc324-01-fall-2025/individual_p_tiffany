@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Therapy Prototype</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 900px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .mood-section, .chat-section, .calendar-section {
+      margin-bottom: 30px;
+    }
+
+    .mood-input {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .mood-input input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .mood-input button {
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .feedback-box {
+      margin-top: 15px;
+      padding: 15px;
+      background: #e9f5ff;
+      border-left: 4px solid #007bff;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .chat-box {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      height: 250px;
+      overflow-y: auto;
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    .chat {
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 70%;
+    }
+
+    .chat.user {
+      background: #d1e7ff;
+      align-self: flex-end;
+    }
+
+    .chat.bot {
+      background: #eee;
+      align-self: flex-start;
+    }
+
+    .chat-input {
+      display: flex;
+      margin-top: 10px;
+      gap: 8px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .chat-input button {
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .day {
+      padding: 15px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      background: #f1f1f1;
+      transition: 0.2s;
+      position: relative;
+    }
+
+    .day:hover {
+      background: #007bff;
+      color: white;
+    }
+
+    .tooltip {
+      display: none;
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: black;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .day:hover .tooltip {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💬 AI Therapy Prototype</h1>
+
+  <!-- Section 1: Mood Input -->
+  <div class="container mood-section">
+    <h2>📝 Enter Today’s Mood</h2>
+    <div class="mood-input">
+      <input type="text" id="mood" placeholder="How are you feeling today?">
+      <button onclick="getFeedback()">Get Feedback</button>
+    </div>
+    <div class="feedback-box" id="feedbackBox"></div>
+  </div>
+
+  <!-- Section 2: Chat -->
+  <div class="container chat-section">
+    <h2>💭 Chat with Me</h2>
+    <div class="chat-box" id="chat-box"></div>
+    <div class="chat-input">
+      <input type="text" id="chat-input" placeholder="Type something...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Section 3: Weekly Calendar -->
+  <div class="container calendar-section">
+    <h2>📅 Weekly Mood Summary</h2>
+    <div class="calendar">
+      <div class="day">Mon <div class="tooltip">😊 Happy</div></div>
+      <div class="day">Tue <div class="tooltip">😟 Stressed</div></div>
+      <div class="day">Wed <div class="tooltip">😴 Tired</div></div>
+      <div class="day">Thu <div class="tooltip">😔 Lonely</div></div>
+      <div class="day">Fri <div class="tooltip">😁 Excited</div></div>
+      <div class="day">Sat <div class="tooltip">😡 Frustrated</div></div>
+      <div class="day">Sun <div class="tooltip">😊 Relaxed</div></div>
+    </div>
+  </div>
+
+  <script>
+    function getFeedback() {
+      const mood = document.getElementById("mood").value.trim();
+      const feedbackBox = document.getElementById("feedbackBox");
+      if (!mood) {
+        feedbackBox.textContent = "Please enter your mood first.";
+      } else {
+        feedbackBox.textContent = `You said you’re feeling "${mood}". Remember, all emotions are valid. 🌱 Would you like to reflect on why you feel this way?`;
+      }
+      feedbackBox.style.display = "block";
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("chat-input");
+      const chatBox = document.getElementById("chat-box");
+
+      if (input.value.trim() === "") return;
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "chat user";
+      userMsg.textContent = input.value;
+      chatBox.appendChild(userMsg);
+
+      const botMsg = document.createElement("div");
+      botMsg.className = "chat bot";
+      botMsg.textContent = "Thanks for sharing. 💙 How does that make you feel?";
+      chatBox.appendChild(botMsg);
+
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+
+</body>
+</html>
