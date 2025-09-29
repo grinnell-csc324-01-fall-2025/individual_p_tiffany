@@ -1,36 +1,182 @@
-// 预设 prompt 和对应回应
-const responses = {
-  "😟 I'm feeling a bit down today.": 
-    "I'm sorry to hear that. Can you tell me what’s been on your mind lately? What do you think might help you feel a little better right now?",
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exp2 - Chat Prototype</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f9f9f9;
+    }
 
-  "😊 I had a really good day!": 
-    "That’s wonderful! 🎉 What made today feel so good for you? Do you think it’s something you could bring into tomorrow too?",
+    .chat-container {
+      width: 400px;
+      height: 600px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
 
-  "😔 I feel lonely sometimes.": 
-    "Feeling lonely can be tough. 💙 Who do you usually reach out to when you feel this way? Would you like to think about new ways to connect with others?",
+    .chat-header {
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
 
-  "😡 I'm frustrated about work.": 
-    "Work stress can really drain your energy. What part of work is bothering you the most? Have you tried talking to someone about it?",
+    .chat-box {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
 
-  "😴 I’m just really tired.": 
-    "Sounds like your body is asking for rest. 😴 Have you been sleeping well lately? What’s one small thing you could do tonight to recharge?"
-};
+    .chat {
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 70%;
+    }
 
-// 当点击 prompt 时，显示不同的回应
-function sendPrompt(promptText) {
-  const chatBox = document.getElementById("chat-box");
+    .chat.user {
+      background: #d1e7ff;
+      align-self: flex-end;
+    }
 
-  // 显示用户输入
-  const userMsg = document.createElement("div");
-  userMsg.className = "chat user";
-  userMsg.textContent = promptText;
-  chatBox.appendChild(userMsg);
+    .chat.bot {
+      background: #eee;
+      align-self: flex-start;
+    }
 
-  // 显示 chatbot 回应
-  const botMsg = document.createElement("div");
-  botMsg.className = "chat bot";
-  botMsg.textContent = responses[promptText] || "Thanks for sharing!";
-  chatBox.appendChild(botMsg);
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+      padding: 8px;
+      background: #f0f0f0;
+    }
 
-  chatBox.scrollTop = chatBox.scrollHeight; // 自动滚动
-}
+    .chat-input input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .chat-input button {
+      margin-left: 8px;
+      padding: 8px 12px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* prompt 列表 */
+    .prompt-list {
+      position: absolute;
+      bottom: 55px; 
+      right: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      display: none;
+      flex-direction: column;
+      width: 250px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .prompt-list button {
+      padding: 8px 10px;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: black;   /* ✅ 确保文字黑色可见 */
+    }
+
+    .prompt-list button:hover {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">💬 Chat with me about how you’re feeling today</div>
+    <div class="chat-box" id="chat-box"></div>
+
+    <div class="chat-input">
+      <input type="text" id="user-input" placeholder="Type something...">
+      <button onclick="togglePrompts()">+</button>
+    </div>
+
+    <!-- Prompt 列表 -->
+    <div class="prompt-list" id="prompt-list">
+      <button onclick="sendPrompt('😟 I\'m feeling a bit down today.')">😟 I'm feeling a bit down today.</button>
+      <button onclick="sendPrompt('😊 I had a really good day!')">😊 I had a really good day!</button>
+      <button onclick="sendPrompt('😔 I feel lonely sometimes.')">😔 I feel lonely sometimes.</button>
+      <button onclick="sendPrompt('😡 I\'m frustrated about work.')">😡 I'm frustrated about work.</button>
+      <button onclick="sendPrompt('😴 I’m just really tired.')">😴 I’m just really tired.</button>
+    </div>
+  </div>
+
+  <script>
+    const responses = {
+      "😟 I'm feeling a bit down today.": 
+        "I'm sorry to hear that. Can you tell me what’s been on your mind lately? What do you think might help you feel a little better right now?",
+
+      "😊 I had a really good day!": 
+        "That’s wonderful! 🎉 What made today feel so good for you? Do you think it’s something you could bring into tomorrow too?",
+
+      "😔 I feel lonely sometimes.": 
+        "Feeling lonely can be tough. 💙 Who do you usually reach out to when you feel this way? Would you like to think about new ways to connect with others?",
+
+      "😡 I'm frustrated about work.": 
+        "Work stress can really drain your energy. What part of work is bothering you the most? Have you tried talking to someone about it?",
+
+      "😴 I’m just really tired.": 
+        "Sounds like your body is asking for rest. 😴 Have you been sleeping well lately? What’s one small thing you could do tonight to recharge?"
+    };
+
+    function togglePrompts() {
+      const promptList = document.getElementById("prompt-list");
+      promptList.style.display = (promptList.style.display === "flex") ? "none" : "flex";
+    }
+
+    function sendPrompt(promptText) {
+      const chatBox = document.getElementById("chat-box");
+
+      // 用户消息
+      const userMsg = document.createElement("div");
+      userMsg.className = "chat user";
+      userMsg.textContent = promptText;
+      chatBox.appendChild(userMsg);
+
+      // AI 回应
+      const botMsg = document.createElement("div");
+      botMsg.className = "chat bot";
+      botMsg.textContent = responses[promptText] || "Thanks for sharing!";
+      chatBox.appendChild(botMsg);
+
+      // 自动滚动到底
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // 关闭 prompt 列表
+      document.getElementById("prompt-list").style.display = "none";
+    }
+  </script>
+</body>
+</html>
