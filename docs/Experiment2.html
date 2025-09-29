@@ -1,173 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat Experiment 2</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9fb;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .chat-container {
-      width: 400px;
-      height: 600px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .chat-header {
-      background: #4a90e2;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .chat-box {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-    }
-    .message {
-      margin: 8px 0;
-      padding: 10px;
-      border-radius: 6px;
-      max-width: 70%;
-    }
-    .user {
-      background: #d1e7ff;
-      align-self: flex-end;
-    }
-    .bot {
-      background: #eee;
-      align-self: flex-start;
-    }
-    .input-area {
-      display: flex;
-      padding: 10px;
-      border-top: 1px solid #ddd;
-      position: relative;
-    }
-    .input-area input {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-    }
-    .input-area button {
-      background: #4a90e2;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      margin-left: 8px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .prompt-list {
-      position: absolute;
-      bottom: 55px; /* 显示在输入框上方 */
-      right: 10px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      display: none;
-      flex-direction: column;
-      width: 250px;
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 1000;
-    }
-    .prompt-list button {
-      padding: 8px 10px;
-      text-align: left;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .prompt-list button:hover {
-      background: #f0f0f0;
-    }
-  </style>
-</head>
-<body>
-  <div class="chat-container">
-    <div class="chat-header">💬 Chat with me about how you’re feeling today</div>
-    <div class="chat-box" id="chatBox"></div>
-    <div class="input-area">
-      <input type="text" id="userInput" placeholder="Type something...">
-      <button id="addPrompt">+</button>
-      <div class="prompt-list" id="promptList">
-        <button>😔 I'm feeling a bit down today.</button>
-        <button>😊 I had a really good day!</button>
-        <button>😓 I feel stressed about school.</button>
-        <button>😡 I'm upset about something at work.</button>
-        <button>😴 I’m just really tired today.</button>
-      </div>
-    </div>
-  </div>
+// 预设 prompt 和对应回应
+const responses = {
+  "😟 I'm feeling a bit down today.": 
+    "I'm sorry to hear that. Can you tell me what’s been on your mind lately? What do you think might help you feel a little better right now?",
 
-  <script>
-    const chatBox = document.getElementById("chatBox");
-    const userInput = document.getElementById("userInput");
-    const addPrompt = document.getElementById("addPrompt");
-    const promptList = document.getElementById("promptList");
+  "😊 I had a really good day!": 
+    "That’s wonderful! 🎉 What made today feel so good for you? Do you think it’s something you could bring into tomorrow too?",
 
-    // 显示/隐藏 prompt 列表
-    addPrompt.addEventListener("click", () => {
-      promptList.style.display = 
-        promptList.style.display === "flex" ? "none" : "flex";
-    });
+  "😔 I feel lonely sometimes.": 
+    "Feeling lonely can be tough. 💙 Who do you usually reach out to when you feel this way? Would you like to think about new ways to connect with others?",
 
-    // 点击 prompt 自动填充并发送
-    promptList.querySelectorAll("button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        sendMessage(btn.textContent, true);
-        promptList.style.display = "none";
-      });
-    });
+  "😡 I'm frustrated about work.": 
+    "Work stress can really drain your energy. What part of work is bothering you the most? Have you tried talking to someone about it?",
 
-    // 发送消息
-    function sendMessage(text, fromPrompt = false) {
-      if (!text) return;
+  "😴 I’m just really tired.": 
+    "Sounds like your body is asking for rest. 😴 Have you been sleeping well lately? What’s one small thing you could do tonight to recharge?"
+};
 
-      // 用户消息
-      const userMsg = document.createElement("div");
-      userMsg.className = "message user";
-      userMsg.textContent = text;
-      chatBox.appendChild(userMsg);
+// 当点击 prompt 时，显示不同的回应
+function sendPrompt(promptText) {
+  const chatBox = document.getElementById("chat-box");
 
-      // 模拟 AI 回复
-      setTimeout(() => {
-        const botMsg = document.createElement("div");
-        botMsg.className = "message bot";
-        botMsg.textContent = fromPrompt
-          ? "🤖 Thanks for sharing that. It sounds important."
-          : "🤖 I hear you. Tell me more.";
-        chatBox.appendChild(botMsg);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }, 500);
+  // 显示用户输入
+  const userMsg = document.createElement("div");
+  userMsg.className = "chat user";
+  userMsg.textContent = promptText;
+  chatBox.appendChild(userMsg);
 
-      userInput.value = "";
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+  // 显示 chatbot 回应
+  const botMsg = document.createElement("div");
+  botMsg.className = "chat bot";
+  botMsg.textContent = responses[promptText] || "Thanks for sharing!";
+  chatBox.appendChild(botMsg);
 
-    // 按 Enter 发送
-    userInput.addEventListener("keypress", e => {
-      if (e.key === "Enter") sendMessage(userInput.value);
-    });
-  </script>
-</body>
-</html>
+  chatBox.scrollTop = chatBox.scrollHeight; // 自动滚动
+}
