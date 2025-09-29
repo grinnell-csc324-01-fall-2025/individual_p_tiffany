@@ -16,6 +16,7 @@
     }
     .chat-container {
       width: 400px;
+      height: 600px;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -48,6 +49,7 @@
       align-items: center;
       padding: 0.5rem;
       border-top: 1px solid #ddd;
+      position: relative;
     }
     .input-container input {
       flex: 1;
@@ -72,13 +74,15 @@
     .dropdown-content {
       display: none;
       position: absolute;
-      bottom: 40px;
+      bottom: 45px; /* 改成往上展开 */
       left: 0;
       background-color: #fff;
-      min-width: 200px;
+      max-height: 200px; /* 限制高度，出现滚动条 */
+      overflow-y: auto;
+      min-width: 220px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
       border-radius: 6px;
-      z-index: 1;
+      z-index: 100;
     }
     .dropdown-content div {
       padding: 10px;
