@@ -1,156 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Exp2: Mock AI Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Experiment 2</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9fb;
+      background-color: #f9f9fb;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
     .chat-container {
       width: 400px;
       height: 600px;
-      background: #fff;
-      border-radius: 12px;
+      background: white;
+      border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
-    .messages {
+    .chat-header {
+      background: #4a90e2;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .chat-box {
       flex: 1;
-      padding: 1rem;
+      padding: 10px;
       overflow-y: auto;
     }
     .message {
-      margin: 0.5rem 0;
-      padding: 0.7rem 1rem;
-      border-radius: 12px;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 6px;
       max-width: 70%;
-      line-height: 1.4;
     }
     .user {
+      background: #d1e7ff;
       align-self: flex-end;
-      background: #daf4fa;
     }
     .bot {
+      background: #eee;
       align-self: flex-start;
-      background: #e8e8e8;
     }
-    .input-container {
+    .input-area {
       display: flex;
-      align-items: center;
-      padding: 0.5rem;
+      padding: 10px;
       border-top: 1px solid #ddd;
       position: relative;
     }
-    .input-container input {
+    .input-area input {
       flex: 1;
-      padding: 0.5rem;
-      border: 1px solid #ddd;
+      padding: 10px;
+      border: 1px solid #ccc;
       border-radius: 6px;
+      outline: none;
     }
-    .input-container button {
-      margin-left: 0.5rem;
-      padding: 0.5rem 0.7rem;
+    .input-area button {
+      background: #4a90e2;
+      color: white;
       border: none;
+      padding: 0 15px;
+      margin-left: 8px;
       border-radius: 6px;
       cursor: pointer;
-      background: #007bff;
-      color: white;
+    }
+    .prompt-list {
+      position: absolute;
+      bottom: 55px; /* 显示在输入框上方 */
+      right: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      display: none;
+      flex-direction: column;
+      width: 250px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+    .prompt-list button {
+      padding: 8px 10px;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
       font-size: 14px;
     }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      bottom: 45px; /* 改成往上展开 */
-      left: 0;
-      background-color: #fff;
-      max-height: 200px; /* 限制高度，出现滚动条 */
-      overflow-y: auto;
-      min-width: 220px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-      border-radius: 6px;
-      z-index: 100;
-    }
-    .dropdown-content div {
-      padding: 10px;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-    }
-    .dropdown-content div:hover {
-      background-color: #f1f1f1;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
+    .prompt-list button:hover {
+      background: #f0f0f0;
     }
   </style>
 </head>
 <body>
   <div class="chat-container">
-    <div class="messages" id="messages"></div>
-    <div class="input-container">
-      <input type="text" id="userInput" placeholder="Type something..." disabled />
-      <div class="dropdown">
-        <button>+</button>
-        <div class="dropdown-content">
-          <div onclick="sendPrompt(0)">😟 I'm feeling anxious today.</div>
-          <div onclick="sendPrompt(1)">😊 I had a really good day.</div>
-          <div onclick="sendPrompt(2)">😔 I feel lonely right now.</div>
-          <div onclick="sendPrompt(3)">😡 I'm so frustrated with work.</div>
-          <div onclick="sendPrompt(4)">😴 I'm exhausted and low energy.</div>
-        </div>
+    <div class="chat-header">💬 Chat with me about how you’re feeling today</div>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Type something...">
+      <button id="addPrompt">+</button>
+      <div class="prompt-list" id="promptList">
+        <button>😔 I'm feeling a bit down today.</button>
+        <button>😊 I had a really good day!</button>
+        <button>😓 I feel stressed about school.</button>
+        <button>😡 I'm upset about something at work.</button>
+        <button>😴 I’m just really tired today.</button>
       </div>
     </div>
   </div>
 
   <script>
-    const messagesDiv = document.getElementById("messages");
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
+    const addPrompt = document.getElementById("addPrompt");
+    const promptList = document.getElementById("promptList");
 
-    const responses = [
-      "It sounds like you're carrying a lot of worry. Try taking a few deep breaths—sometimes slowing down helps ground you.",
-      "That's wonderful to hear! Celebrating good days can really boost your resilience. What made today so positive?",
-      "Feeling lonely can be tough. Is there a small step you could take to connect with someone you trust?",
-      "Frustration is valid—work stress can pile up quickly. Maybe breaking tasks into smaller pieces could help.",
-      "Your body might be telling you it needs rest. Could you plan a short break or a relaxing activity tonight?"
-    ];
+    // 显示/隐藏 prompt 列表
+    addPrompt.addEventListener("click", () => {
+      promptList.style.display = 
+        promptList.style.display === "flex" ? "none" : "flex";
+    });
 
-    function addMessage(text, sender) {
-      const msg = document.createElement("div");
-      msg.classList.add("message", sender);
-      msg.textContent = text;
-      messagesDiv.appendChild(msg);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
+    // 点击 prompt 自动填充并发送
+    promptList.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        sendMessage(btn.textContent, true);
+        promptList.style.display = "none";
+      });
+    });
 
-    function sendPrompt(index) {
-      const prompts = [
-        "😟 I'm feeling anxious today.",
-        "😊 I had a really good day.",
-        "😔 I feel lonely right now.",
-        "😡 I'm so frustrated with work.",
-        "😴 I'm exhausted and low energy."
-      ];
+    // 发送消息
+    function sendMessage(text, fromPrompt = false) {
+      if (!text) return;
 
       // 用户消息
-      addMessage(prompts[index], "user");
+      const userMsg = document.createElement("div");
+      userMsg.className = "message user";
+      userMsg.textContent = text;
+      chatBox.appendChild(userMsg);
 
-      // AI 回复
+      // 模拟 AI 回复
       setTimeout(() => {
-        addMessage(responses[index], "bot");
+        const botMsg = document.createElement("div");
+        botMsg.className = "message bot";
+        botMsg.textContent = fromPrompt
+          ? "🤖 Thanks for sharing that. It sounds important."
+          : "🤖 I hear you. Tell me more.";
+        chatBox.appendChild(botMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
       }, 500);
+
+      userInput.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
+
+    // 按 Enter 发送
+    userInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") sendMessage(userInput.value);
+    });
   </script>
 </body>
 </html>
