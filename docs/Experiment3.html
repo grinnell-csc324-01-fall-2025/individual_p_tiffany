@@ -2,31 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Experiment 3 - Emotion Tracking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotion Calendar</title>
   <style>
-    table { border-collapse: collapse; width: 60%; margin: 1rem 0; }
-    td, th { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9fb;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 15px;
+      max-width: 900px;
+      width: 100%;
+    }
+    .day {
+      position: relative;
+      background: #ffffff;
+      padding: 20px;
+      text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .day:hover {
+      transform: translateY(-4px);
+      background: #f0f8ff;
+    }
+    .tooltip {
+      visibility: hidden;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 6px 10px;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+      bottom: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+    .day:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
   </style>
 </head>
-<body style="font-family: Arial; margin: 2rem;">
-  <h1>Experiment 3: Emotion Tracking Mockup</h1>
-  
-  <p><em>Task:</em> Imagine logging your emotions daily and reviewing them at the end of the week.</p>
-  
-  <table>
-    <tr>
-      <th>Day</th>
-      <th>Mood</th>
-    </tr>
-    <tr><td>Monday</td><td>😊 Happy</td></tr>
-    <tr><td>Tuesday</td><td>😟 Anxious</td></tr>
-    <tr><td>Wednesday</td><td>😐 Neutral</td></tr>
-    <tr><td>Thursday</td><td>😴 Tired</td></tr>
-    <tr><td>Friday</td><td>😁 Excited</td></tr>
-    <tr><td>Saturday</td><td>😢 Sad</td></tr>
-    <tr><td>Sunday</td><td>🙂 Calm</td></tr>
-  </table>
-  
-  <p><strong>Instruction:</strong> Does this weekly mood summary help you reflect on your feelings?</p>
+<body>
+  <div class="calendar">
+    <div class="day">Mon
+      <div class="tooltip">😊 Happy: had a great study session</div>
+    </div>
+    <div class="day">Tue
+      <div class="tooltip">😟 Stressed: too much homework</div>
+    </div>
+    <div class="day">Wed
+      <div class="tooltip">😴 Tired: didn’t sleep well</div>
+    </div>
+    <div class="day">Thu
+      <div class="tooltip">😃 Excited: finished project milestone</div>
+    </div>
+    <div class="day">Fri
+      <div class="tooltip">😔 Lonely: missed family</div>
+    </div>
+    <div class="day">Sat
+      <div class="tooltip">🤩 Energetic: went hiking</div>
+    </div>
+    <div class="day">Sun
+      <div class="tooltip">😌 Relaxed: good self-care day</div>
+    </div>
+  </div>
 </body>
 </html>
