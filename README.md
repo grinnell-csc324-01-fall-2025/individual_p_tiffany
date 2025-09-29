@@ -50,8 +50,6 @@ App: http://localhost:3000
 3. Go to **Mood**, save a mood entry and see it listed.
 
 
-> No API key required. Swap `services/llm_client.py` later to call a real provider, and replace `services/emotions.py` with your Naive Bayes model.
-
 ## Structure
 - `backend/app/routers` – health, auth, chat, mood endpoints
 
