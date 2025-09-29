@@ -1,10 +1,20 @@
 from fastapi import FastAPI
 from .routers import health, auth, chat, mood
 from .db import Base, engine
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# 注册路由
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Update with specific origins in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# Include routers
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(chat.router)

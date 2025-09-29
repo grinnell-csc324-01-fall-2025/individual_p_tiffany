@@ -15,7 +15,7 @@ def get_db():
 @router.get("")
 def health_check(db: Session = Depends(get_db)):
     try:
-        # Simple query to check database connectivity
+        # 尝试执行一个简单的查询来检查数据库连接
         db.execute("SELECT 1")
         db_ok = True
     except Exception:
