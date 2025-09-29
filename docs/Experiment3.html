@@ -11,7 +11,12 @@
       margin: 0;
       padding: 2rem;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #333;
     }
     .calendar {
       display: grid;
@@ -19,6 +24,7 @@
       gap: 15px;
       max-width: 900px;
       width: 100%;
+      margin-bottom: 2rem;
     }
     .day {
       position: relative;
@@ -54,31 +60,96 @@
       visibility: visible;
       opacity: 1;
     }
+    .input-section {
+      margin-bottom: 2rem;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px;
+      font-size: 14px;
+    }
+    #analysis {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+      width: 80%;
+      max-width: 700px;
+    }
   </style>
 </head>
 <body>
-  <div class="calendar">
-    <div class="day">Mon
-      <div class="tooltip">😊 Happy: had a great study session</div>
-    </div>
-    <div class="day">Tue
-      <div class="tooltip">😟 Stressed: too much homework</div>
-    </div>
-    <div class="day">Wed
-      <div class="tooltip">😴 Tired: didn’t sleep well</div>
-    </div>
-    <div class="day">Thu
-      <div class="tooltip">😃 Excited: finished project milestone</div>
-    </div>
-    <div class="day">Fri
-      <div class="tooltip">😔 Lonely: missed family</div>
-    </div>
-    <div class="day">Sat
-      <div class="tooltip">🤩 Energetic: went hiking</div>
-    </div>
-    <div class="day">Sun
-      <div class="tooltip">😌 Relaxed: good self-care day</div>
-    </div>
+  <h1>Emotion Calendar (Weekly)</h1>
+
+  <!-- 输入心情 -->
+  <div class="input-section">
+    <label for="day">Select Day:</label>
+    <select id="day">
+      <option value="0">Mon</option>
+      <option value="1">Tue</option>
+      <option value="2">Wed</option>
+      <option value="3">Thu</option>
+      <option value="4">Fri</option>
+      <option value="5">Sat</option>
+      <option value="6">Sun</option>
+    </select>
+    <input type="text" id="emotion" placeholder="Enter your emotion..." />
+    <button onclick="saveEmotion()">Save Emotion</button>
   </div>
+
+  <!-- 日历 -->
+  <div class="calendar" id="calendar">
+    <div class="day">Mon<div class="tooltip"></div></div>
+    <div class="day">Tue<div class="tooltip"></div></div>
+    <div class="day">Wed<div class="tooltip"></div></div>
+    <div class="day">Thu<div class="tooltip"></div></div>
+    <div class="day">Fri<div class="tooltip"></div></div>
+    <div class="day">Sat<div class="tooltip"></div></div>
+    <div class="day">Sun<div class="tooltip"></div></div>
+  </div>
+
+  <!-- 分析 -->
+  <div id="analysis">
+    <h2>Weekly Emotion Analysis</h2>
+    <ul id="analysis-list"></ul>
+  </div>
+
+  <script>
+    const emotions = ["","","","","","",""]; // 保存7天的心情
+
+    function saveEmotion() {
+      const dayIndex = document.getElementById("day").value;
+      const emotion = document.getElementById("emotion").value.trim();
+      if (!emotion) {
+        alert("Please enter an emotion!");
+        return;
+      }
+
+      // 更新心情
+      emotions[dayIndex] = emotion;
+
+      // 更新日历 tooltip
+      const calendar = document.getElementById("calendar").children;
+      calendar[dayIndex].querySelector(".tooltip").innerText = emotion;
+
+      // 更新分析
+      updateAnalysis();
+
+      // 清空输入框
+      document.getElementById("emotion").value = "";
+    }
+
+    function updateAnalysis() {
+      const analysisList = document.getElementById("analysis-list");
+      analysisList.innerHTML = "";
+      emotions.forEach((emo, i) => {
+        if (emo) {
+          const li = document.createElement("li");
+          li.textContent = `Day ${i+1}: ${emo}`;
+          analysisList.appendChild(li);
+        }
+      });
+    }
+  </script>
 </body>
 </html>
