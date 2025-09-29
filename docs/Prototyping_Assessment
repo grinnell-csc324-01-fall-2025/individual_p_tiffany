@@ -1,0 +1,46 @@
+## 1. Research Questions
+
+1. Can users successfully complete basic tasks (e.g., inputting mood, viewing feedback), 
+and is the interface intuitive?    
+
+2. Do users find the AI’s text feedback helpful, easy to understand, and credible for a therapy-like context?    
+
+3. Do users find the emotion tracking feature (logging/reviewing moods across the month) useful for self-reflection?   
+
+## 2. Lo-fi Prototypes
+
+- Exp1: Simple Figma wireframes or static HTML screens with input boxes, buttons, and navigation.  
+- Exp2: Predefined “mock AI responses” instead of real model output.  
+- Exp3: Mockup of a simple calendar or chart view for emotions.  
+
+## 3. Experiment Playbook
+
+### Experiment 1: 
+- **Script**:  
+  Ask participants to complete:  
+  1. Enter today’s mood  
+  2. Click the “Get Feedback” button  
+  3. View the result/summary  
+- **Rules**: No external instructions.  
+- **Data Collected**: Task completion time, number of errors, verbal feedback.  
+
+### Experiment 2: 
+- **Script**:  
+  Provide scenario: *“Today I feel very stressed about exams.”*  
+  Show 2–3 pre-written AI responses (e.g., “It’s normal to feel anxious during exams…”).  
+- **Rules**: Users evaluate responses based on personal preferences.  
+- **Data Collected**: Users will be asked to rate AI responses from several factor from a scale from 1 to 5
+with 5 being very satifactory: 
+    1) sincecerity 
+    2) effectiveness in pinpointing feelings described
+    3) effectveness in providing advice and comfort
+
+### Experiment 3: Emotion Tracking Value
+- **Script**:  
+  Show mockup of an “emotion calendar” of a weekly summary.  
+  Ask participants to log moods for the past week and check summary.  
+- **Rules**: No instructions in navigating. Users will evaluate based on pesonal preferences.  
+- **Data Collected**: User reflections on self-awareness and their improvement suggestions.  
+
+
+## 4. Takeaways
