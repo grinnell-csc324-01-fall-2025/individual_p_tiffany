@@ -7,3 +7,34 @@ backend/.venv/
 # OS files
 .DS_Store
 
+# Next.js / frontend build artifacts
+.next/
+out/
+dist/
+
+# logs
+*.log
+frontend/frontend-dev.log
+
+# dotenv
+.env
+.env.local
+.env.*.local
+
+# coverage
+.nyc_output/
+coverage/
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# local python envs
+frontend/.venv/
+
+# misc
+*.tgz
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+

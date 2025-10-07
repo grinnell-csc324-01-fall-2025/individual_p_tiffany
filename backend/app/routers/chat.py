@@ -39,13 +39,25 @@
 
 from fastapi import APIRouter
 from ..schemas import AnalyzeIn, AnalyzeOut
-import random
+from ..services.emotions import analyze
+from ..services.llm_client import generate_guidance
 
-router = APIRouter()
+router = APIRouter(prefix="/chat", tags=["chat"])
+
 
 @router.post("/analyze", response_model=AnalyzeOut)
-def analyze(in_data: AnalyzeIn):
-    # 这里先模拟返回
-    emotions = ["joy", "sadness", "anger", "anxiety"]
-    emotion = random.choice(emotions)
-    return {"emotion": emotion, "confidence": round(random.uniform(0.6, 0.95), 2)}
+def analyze_route(in_data: AnalyzeIn):
+    # 使用项目现有的情绪分析器并返回情绪与置信度
+    emos, risk = analyze(in_data.text)
+    # 简化版：返回 top emotion 和置信度（示意）
+    top = max(emos, key=emos.get) if emos else "mixed"
+    confidence = round(emos.get(top, 0.6), 2) if isinstance(emos, dict) else 0.7
+    return {"emotion": top, "confidence": confidence}
+
+
+@router.post("/demo")
+def analyze_and_guidance(in_data: AnalyzeIn):
+    # Demo endpoint: analyze emotions then generate guidance (may call real LLM if enabled)
+    emos, risk = analyze(in_data.text)
+    guidance = generate_guidance(in_data.text, emos)
+    return {"emotions": emos, "guidance": guidance, "risk": risk}

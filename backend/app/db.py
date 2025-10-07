@@ -1,46 +1,47 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
-from dotenv import load_dotenv
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 import os
-
-# Load environment variables from a .env file
-load_dotenv()
-
-# Fallback to a default local PostgreSQL database if DATABASE_URL is not set
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg2://tangyixu:0048@localhost:5432/ai_therapy"
-)
-
-# Establish database connection
-engine = None
-SessionLocal = None
-
+# 尝试可选加载 .env（如果 python-dotenv 未安装则跳过）
 try:
-    # 尝试创建数据库引擎
-    engine = create_engine(DATABASE_URL, echo=True)
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    print("✅ Database engine created successfully.")
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    print("⚠️  python-dotenv not installed; skipping .env load. Ensure environment variables are set.")
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+# 如果没有在环境变量中设置 DATABASE_URL，则为本地开发回退到 sqlite 文件数据库
+if not DATABASE_URL:
+    print("⚠️  DATABASE_URL not set in .env, falling back to sqlite:///./dev.db for local development")
+    DATABASE_URL = "sqlite:///./dev.db"
+
+# 为 sqlite 提供额外的 connect_args（避免多线程问题）
+connect_args = {}
+if DATABASE_URL.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
+
+# 创建数据库引擎（失败时不抛出），便于在未安装或无法连接数据库时仍能启动服务并返回调试信息
+try:
+    if connect_args:
+        engine = create_engine(DATABASE_URL, connect_args=connect_args)
+    else:
+        engine = create_engine(DATABASE_URL)
+    print(f"✅ SQLAlchemy engine created for {DATABASE_URL}")
 except Exception as e:
-    print("⚠️ Database not available, skipping connection.")
-    print("Error:", e)
+    print("❌ Failed to create SQLAlchemy engine:", e)
+    engine = None
 
-# ORM模型基类
+# 创建 session
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# 基类，用于模型继承
 Base = declarative_base()
 
-from sqlalchemy.orm import Session
-
-# ORM模型基类
-Base = declarative_base()
-
-# FastAPI 依赖 - 获取数据库会话
+# 提供一个依赖项函数，后面 FastAPI 会用到
 def get_db():
-    db = None
-    if SessionLocal is not None:
-        db = SessionLocal()
+    db = SessionLocal()
     try:
         yield db
     finally:
-        if db is not None:
-            db.close()
-
+        db.close()

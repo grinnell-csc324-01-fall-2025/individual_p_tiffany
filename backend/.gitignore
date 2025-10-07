@@ -1,2 +1,24 @@
 __pycache__/
 *.pyc
+.venv
+.env
+
+# local databases
+dev.db
+*.db
+*.sqlite3
+
+# logs
+uvicorn.log
+*.log
+
+# test / typecheck caches
+.pytest_cache/
+.mypy_cache/
+
+# editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
