@@ -2,10 +2,6 @@ from .emotions import analyze
 import os
 from typing import Optional
 
-# Minimal optional real-LLM integration using httpx to call OpenAI's Chat Completion API.
-# This is optional: by default the project uses the mocked guidance so it runs without any
-# API keys. To enable real calls set USE_REAL_LLM=true and provide OPENAI_API_KEY in your .env.
-
 USE_REAL = os.getenv("USE_REAL_LLM", "false").lower() in ("1", "true", "yes")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
@@ -30,7 +26,6 @@ def _mock_guidance(user_text: str, emotions: dict, tone: str = "calming") -> str
 
 
 def _call_openai(user_text: str, emotions: dict, tone: str = "calming") -> Optional[str]:
-    # Lazy import to avoid hard dependency if httpx isn't installed
     try:
         import httpx
     except Exception:
@@ -59,7 +54,6 @@ def _call_openai(user_text: str, emotions: dict, tone: str = "calming") -> Optio
     url = "https://api.openai.com/v1/chat/completions"
     headers = {"Authorization": f"Bearer {OPENAI_KEY}", "Content-Type": "application/json"}
     body = {
-        # use gpt-3.5-turbo by default (more commonly available); change if you have access to other models
         "model": "gpt-3.5-turbo",
         "messages": [
             {"role": "system", "content": system},
@@ -82,10 +76,8 @@ def _call_openai(user_text: str, emotions: dict, tone: str = "calming") -> Optio
 
 
 def generate_guidance(user_text: str, emotions: dict, tone: str = "calming") -> str:
-    # Try real provider if enabled
     if USE_REAL:
         res = _call_openai(user_text, emotions, tone)
         if res:
             return res
-        # fallback to mock if real call fails
     return _mock_guidance(user_text, emotions, tone)
