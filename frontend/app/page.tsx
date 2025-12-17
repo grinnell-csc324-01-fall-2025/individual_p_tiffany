@@ -6,7 +6,7 @@ export default function Home() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 48, width: '80%', maxWidth: 1000 }}>
         {/* Left: circular logo */}
         <div style={{ width: 360, height: 360, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 24px rgba(0,0,0,0.08)' }}>
-          <img src="/logo-circle.png" alt="logo" style={{ width: 300, height: 300, borderRadius: '50%', objectFit: 'cover' }} />
+          <img src="/logo.png" alt="logo" style={{ width: 300, height: 300, borderRadius: '50%', objectFit: 'cover' }} />
         </div>
 
   {/* Right: slogan as main title (shifted down by 10% of its height) */}
@@ -25,7 +25,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </div>
+          </div>
     </div>
   );
 }

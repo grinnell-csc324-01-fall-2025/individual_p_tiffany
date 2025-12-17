@@ -19,6 +19,7 @@ class MoodEntry(Base):
     emotion = Column(String)
     note = Column(String, nullable=True)
     user_id = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(String)
 
     user = relationship("User", back_populates="moods")
 

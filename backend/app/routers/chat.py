@@ -38,7 +38,7 @@
 #     return AnalyzeOut(emotions=emos, guidance=guidance, risk=risk)
 
 from fastapi import APIRouter
-from ..schemas import AnalyzeIn, AnalyzeOut
+from ..schemas import AnalyzeIn, AnalyzeOut, ChatDemoIn, ChatDemoOut
 from ..services.emotions import analyze
 from ..services.llm_client import generate_guidance
 
@@ -55,9 +55,10 @@ def analyze_route(in_data: AnalyzeIn):
     return {"emotion": top, "confidence": confidence}
 
 
-@router.post("/demo")
-def analyze_and_guidance(in_data: AnalyzeIn):
-    # Demo endpoint: analyze emotions then generate guidance (may call real LLM if enabled)
+@router.post("/demo", response_model=ChatDemoOut)
+def analyze_and_guidance(in_data: ChatDemoIn):
+    # Demo endpoint: analyze emotions then generate guidance with tone (may call real LLM if enabled)
     emos, risk = analyze(in_data.text)
-    guidance = generate_guidance(in_data.text, emos)
+    tone = in_data.tone or "calming"
+    guidance = generate_guidance(in_data.text, emos, tone)
     return {"emotions": emos, "guidance": guidance, "risk": risk}

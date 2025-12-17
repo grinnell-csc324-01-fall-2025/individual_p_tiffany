@@ -10,11 +10,18 @@ USE_REAL = os.getenv("USE_REAL_LLM", "false").lower() in ("1", "true", "yes")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
 
-def _mock_guidance(user_text: str, emotions: dict) -> str:
+def _mock_guidance(user_text: str, emotions: dict, tone: str = "calming") -> str:
     top = max(emotions, key=emotions.get) if emotions else "mixed"
+    
+    # Adjust tone in the response
+    tone_prefix = {
+        "calming": "I understand you're feeling " + top + ". Let's take a gentle approach:",
+        "cheerful": "Great that you're sharing! I sense " + top + " in your words. Let's look at the bright side:",
+        "casual": "Hey, so you're feeling " + top + "? No worries, let's break it down:",
+    }.get(tone, "Thanks for sharing. I hear " + top + " in what you wrote.")
+    
     return (
-        "Thanks for sharing. I hear " + top + " in what you wrote. "
-        "Let's try a brief CBT step:\n"
+        tone_prefix + "\n"
         "1) Situation: Write one sentence describing what happened.\n"
         "2) Thought check: What thought makes the feeling stronger? Any evidence for/against it?\n"
         "3) Reframe: Try a kinder, more balanced alternative thought.\n"
@@ -22,7 +29,7 @@ def _mock_guidance(user_text: str, emotions: dict) -> str:
     )
 
 
-def _call_openai(user_text: str, emotions: dict) -> Optional[str]:
+def _call_openai(user_text: str, emotions: dict, tone: str = "calming") -> Optional[str]:
     # Lazy import to avoid hard dependency if httpx isn't installed
     try:
         import httpx
@@ -32,14 +39,21 @@ def _call_openai(user_text: str, emotions: dict) -> Optional[str]:
     if not OPENAI_KEY:
         return None
 
+    # Tone-aware system prompt
+    tone_instruction = {
+        "calming": "Be calm, gentle, and soothing. Use reassuring language and encourage relaxation techniques.",
+        "cheerful": "Be upbeat, positive, and encouraging. Use hopeful language and celebrate small wins.",
+        "casual": "Be conversational and friendly, like talking to a close friend. Keep it light and relatable.",
+    }.get(tone, "Be thoughtful and supportive.")
+    
     system = (
-        "You are a thoughtful cognitive-behavioral therapy assistant. Provide a short, gentle,"
-        " actionable guidance based on the user's text and emotions. Keep it concise (<= 200 words)."
+        f"You are a thoughtful cognitive-behavioral therapy assistant. {tone_instruction} "
+        "Provide a short, gentle, actionable guidance based on the user's text and emotions. Keep it concise (<= 200 words)."
     )
     top = max(emotions, key=emotions.get) if emotions else "mixed"
     prompt = (
         f"User wrote: {user_text}\n\nDetected top emotion: {top}\n\n"
-        "Provide a short CBT-style guidance with 3-4 steps, empathetic tone."
+        f"Respond in a {tone} tone. Provide short CBT-style guidance with 3-4 steps, empathetic and {tone}."
     )
 
     url = "https://api.openai.com/v1/chat/completions"
@@ -67,11 +81,11 @@ def _call_openai(user_text: str, emotions: dict) -> Optional[str]:
         return None
 
 
-def generate_guidance(user_text: str, emotions: dict) -> str:
+def generate_guidance(user_text: str, emotions: dict, tone: str = "calming") -> str:
     # Try real provider if enabled
     if USE_REAL:
-        res = _call_openai(user_text, emotions)
+        res = _call_openai(user_text, emotions, tone)
         if res:
             return res
         # fallback to mock if real call fails
-    return _mock_guidance(user_text, emotions)
+    return _mock_guidance(user_text, emotions, tone)

@@ -8,8 +8,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body style={{ fontFamily: 'Inter, system-ui, sans-serif', margin: 0 }}>
-        {/* top-right login button (client-only) */}
-        <div id="top-login" style={{ position: 'fixed', right: 20, top: 18, zIndex: 60 }}>
+        {/* top-right login button and settings (client-only) */}
+        <div id="top-login" style={{ position: 'fixed', right: 20, top: 18, zIndex: 60, display: 'flex', gap: 12, alignItems: 'center' }}>
+          {/* Settings button */}
+          <button
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 6,
+              background: '#f0f0f0',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 18,
+            }}
+            title="Settings"
+          >
+            ⚙️
+          </button>
           {/* Render client wrapper (dynamic import) */}
           {/* @ts-ignore */}
           <LoginButtonClient />
@@ -17,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div style={{ display: 'flex', minHeight: '100vh', background: '#eaf6ff' }}>
           <aside style={{ width: 260, padding: 20, borderRight: '1px solid rgba(0,0,0,0.06)', background: '#f3fbff' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <img id="site-logo" src="/logo-circle.png" alt="logo" style={{ width: 56, height: 56, borderRadius: '50%' }} />
+              <img id="site-logo" src="/logo.png" alt="logo" style={{ width: 56, height: 56, borderRadius: 6, objectFit: 'cover' }} />
               <div>
                 <div style={{ fontWeight: 700 }}>Aluv</div>
                 <div id="site-slogan" style={{ fontSize: 12, color: '#666' }}>Your AI therapist</div>
