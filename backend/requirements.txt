@@ -1,3 +1,5 @@
+hypothesis
+pytest
 fastapi
 uvicorn[standard]
 sqlalchemy
