@@ -37,6 +37,8 @@ API root: http://localhost:8000
 ```bash
 cd ../frontend
 cp .env.local.example .env.local
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
 npm install
 npm run dev
 ```
